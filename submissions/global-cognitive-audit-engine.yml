@@ -74,26 +74,35 @@ applied_definition: |
   system's fragility is reported as $\max_i \Delta D(A_i)$. $\Delta D$ is an ordinal
   intra-decision ranking, not a calibrated probability.
 
-  **Pipeline.** Five operators run in a fixed order, each also usable alone:
+  **Pipeline.** Five operators run in a fixed order, each also usable alone, and a
+  terminal verification stage closes the sequence:
 
   $$\mathrm{NS} \rightarrow \mathrm{IAP} \rightarrow \mathrm{LCH} \rightarrow
-  \mathrm{CCS} \rightarrow \mathrm{STATE}$$
+  \mathrm{ANCH} \rightarrow \mathrm{RECON}$$
 
   1. Narrative Stripping (NS) — removes rhetoric, affect, and vague quantifiers;
      retains the logical core.
   2. Implicit Assumption Perspective (IAP) — surfaces undeclared premises, privilege
      bypass, and circular reasoning.
-  3. Fragility Latch (LCH) — computes $\Delta D(A_i)$ per premise; locates the most
-     fragile variable.
-  4. Causal Chain Synchronization (CCS) — reverse verification, counterfactual
-     validation, and detection of missing branch responses.
-  5. State Anchoring (STATE) — responsibility anchoring to the minimum decision unit,
+  3. Vulnerability Hedging (LCH) — computes $\Delta D(A_i)$ per premise; locates the
+     most fragile variable and states how the chain can be repaired at that point.
+  4. Responsibility Anchoring (ANCH) — assigns each decision exactly one responsibility
+     anchor, traced to the minimum decision unit and immutable to subsequent revision,
      plus a tamper-evident SHA-256 audit certificate (audit ID + nonce).
+  5. Causal Reconstruction (RECON) — rebuilds the chain after audit, so that it is a
+     defensible causal structure rather than a narrative.
 
-  **Verdict.** STATE emits one of three discrete levels — AUDIT_PASS, AUDIT_WARN, or
-  AUDIT_HALT — derived from the upstream operators' boolean outputs. The core runs
-  fully offline with zero external calls; language-model narrative rendering is
-  optional, disabled by default, and can never alter a verdict.
+  **Terminal verification.** A deterministic fact cleanse runs after the pipeline and
+  is not a sixth operator. Every premise admitted into the chain must be either
+  established or explicitly marked unestablished; probabilistic qualification, hedged
+  quantifiers, and unverified assertions are removed rather than averaged into a score.
+  What the cleanse yields is a floor, not a verdict.
+
+  **Verdict.** The reconstructed chain is assigned one of three discrete levels —
+  AUDIT_PASS, AUDIT_WARN, or AUDIT_HALT — derived from the operators' boolean outputs,
+  with the tamper-evident SHA-256 certificate emitted by Responsibility Anchoring. The
+  core runs fully offline with zero external calls; language-model narrative rendering
+  is optional, disabled by default, and can never alter a verdict.
 
   **Theoretical grounding.** The premise/branch-response structure is an instance of
   assumption-based argumentation: a premise $A_i$ is an assumption, and a premise with
@@ -199,9 +208,9 @@ implementation_resources:
 common_variants:
   - Narrative Stripping (NS) — single-operator sub-audit
   - Implicit Assumption Perspective (IAP) — single-operator sub-audit
-  - Fragility Latch (LCH) — single-operator sub-audit
-  - Causal Chain Synchronization (CCS) — single-operator sub-audit
-  - State Anchoring (STATE) — single-operator sub-audit
+  - Vulnerability Hedging (LCH) — single-operator sub-audit
+  - Responsibility Anchoring (ANCH) — single-operator sub-audit
+  - Causal Reconstruction (RECON) — single-operator sub-audit
 
 computational_requirements: >-
   Python 3 standard library only; no third-party packages, no GPU, and no network access
